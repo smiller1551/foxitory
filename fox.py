@@ -26,12 +26,19 @@ def foxtrot(active = False):
             active = False #stop the fox
             print("The Fox is gone!") #TESTING: print that the fox is gone.
             
-def main():
+class Location:
     
-    foxtrot(True) #start the fox
+    def __init__(self, name, hidingspots, present = False):
+        self.name = name
+        self.hidingspots = hidingspots
+        self.present = present
+        
+class HidingSpot:
     
-    print("Hey, B! Did you see the UMD Reddit? The fox is on the run again! I know you really wanted to get a photo of it. Go grab your camera and head out!")
-            
+    def __init__(self, name, present = False):
+        self.name = name
+        self.present = present
+        
 Map = {"Morill Quad": ("Chapel Gardens", "McKeldin Mall"),
        "Chapel Gardens": ("Morill Quad", "McKeldin Mall"),
        "McKeldin Mall": ("Morill Quad", "Chapel Gardens", "Engineering Fields", "Ampitheater"),
@@ -41,4 +48,4 @@ Map = {"Morill Quad": ("Chapel Gardens", "McKeldin Mall"),
        "Engineering Fields": ("McKeldin Mall", "Regents Drive Garage", "Paint Branch Trail"),
        "Paint Branch Trail": ("Regents Drive Garage", "Engineering Fields", "Beyond")}
 
-main()
+foxtrot(True) #for testing purposes
