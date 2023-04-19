@@ -12,18 +12,17 @@ class Location:
     """This class stores information about locations.
     """
     
-    def __init__(self, name, hidingspots, present = False):
+    def __init__(self, name, inopen = False):
         self.name = name
-        self.hidingspots = hidingspots
-        self.present = present
+        self.inopen = inopen
         
-class HidingSpot:
-    """This class stores information about hiding spots.
-    """
-    
-    def __init__(self, name, present = False):
-        self.name = name
-        self.present = present
+    class HidingSpot:
+        """This class stores information about hiding spots.
+        """
+        
+        def __init__(self, name, hiding = False):
+            self.name = name
+            self.hiding = hiding
                 
 def foxtrot(active = False):
     """This function creates a fox and moves it around.
@@ -47,12 +46,15 @@ def foxtrot(active = False):
             active = False #stop the fox
             print("The Fox is gone!") #TESTING: print that the fox is gone.
             
-def Map_init(Map):
+def Map_init():
     """
     This function initializes the map. It must be run before the game starts!
     """
+    locationlist = list(Map.keys())
     
-  
+    Morill_Quad = ("Morill Quad")
+    
+    
 Map = {"Morill_Quad": ("Chapel_Gardens", "McKeldin_Mall"),
     "Chapel_Gardens": ("Morill_Quad", "McKeldin_Mall"),
     "McKeldin_Mall": ("Morill_Quad", "Chapel_Gardens", "Engineering_Fields", "Ampitheater"),
