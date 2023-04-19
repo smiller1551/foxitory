@@ -52,16 +52,15 @@ def Map_init(Map):
     This function initializes the map. It must be run before the game starts!
     """
     
-    
   
-Map = {"Morill Quad": ("Chapel Gardens", "McKeldin Mall"),
-    "Chapel Gardens": ("Morill Quad", "McKeldin Mall"),
-    "McKeldin Mall": ("Morill Quad", "Chapel Gardens", "Engineering Fields", "Ampitheater"),
-    "Ampitheater": ("Yahentamitsi", "Regents Drive Garage", "McKeldin Mall"),
-    "Yahentamitsi": ("Ampitheater", "Regents Drive Garage"),
-    "Regents Drive Garage": ("Ampitheater", "Engineering Fields", "Paint Branch Trail", "Yahentamitsi"),
-    "Engineering Fields": ("McKeldin Mall", "Regents Drive Garage", "Paint Branch Trail"),
-    "Paint Branch Trail": ("Regents Drive Garage", "Engineering Fields", "Beyond")}
+Map = {"Morill_Quad": ("Chapel_Gardens", "McKeldin_Mall"),
+    "Chapel_Gardens": ("Morill_Quad", "McKeldin_Mall"),
+    "McKeldin_Mall": ("Morill_Quad", "Chapel_Gardens", "Engineering_Fields", "Ampitheater"),
+    "Ampitheater": ("Yahentamitsi", "Regents_Drive_Garage", "McKeldin_Mall"),
+    "Yahentamitsi": ("Ampitheater", "Regents_Drive_Garage"),
+    "Regents_Drive_Garage": ("Ampitheater", "Engineering_Fields", "Paint_Branch_Trail", "Yahentamitsi"),
+    "Engineering_Fields": ("McKeldin_Mall", "Regents_Drive_Garage", "Paint_Branch_Trail"),
+    "Paint_Branch_Trail": ("Regents_Drive Garage", "Engineering_Fields", "Beyond")}
 
     
 
