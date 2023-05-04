@@ -76,9 +76,7 @@ def Map_init():
     Paint_Branch_Trail = ("Paint Branch Trail",
                           "A photograph looking down a paved wooded trail with a fox running away."
                           "A photograph looking down a paved wooded trail.")
-    
-    
-    
+     
     
 #def locationcheck(location):
     
