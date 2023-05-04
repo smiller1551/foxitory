@@ -11,7 +11,7 @@ def createImage(user_input):
         size (str): size of image
     """
     #openai.organization = "YOUR_ORG_ID"
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = os.getenv("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")
     
     response = openai.Image.create(
     prompt= user_input,
