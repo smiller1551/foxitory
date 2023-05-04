@@ -20,5 +20,6 @@ def createImage(user_input):
     )
     
     image_url = response['data'][0]['url']
+    #pull image through GUI 
 
 createImage("a fox at the University of Maryland College Park McKeldin Mall")
