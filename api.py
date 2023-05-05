@@ -9,9 +9,9 @@ class Image:
         """Access to DALLE-E API via key.
         """
         self.key = key
-        openai.api_key = os.getenv(self.key)
+        openai.api_key = self.key
         
-    def createImage(user_input):
+    def createImage(self, user_input):
         """Create an image through DALL-E via user prompt.
 
             response (Image): the AI generated image
@@ -27,12 +27,10 @@ class Image:
         )
     
         image_url = response['data'][0]['url']
-        return image_url
+        print(image_url)
         #pull image through GUI 
 
-fox_E = Image("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")
-img = fox_E.createImage("a fox at the University of Maryland College Park McKeldin Mall")
+fox_E = Image('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')
+img = fox_E.createImage("fox")
 
-assert(fox_E)
-assert(fox_E.key == "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")
-assert(img)
+assert(fox_E.key == "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")
