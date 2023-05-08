@@ -4,6 +4,7 @@ import multiprocessing as mp
 from datetime import datetime, timedelta
 from re import sub
 
+#Map global variable, stores information about the map
 Map = {"morill_quad": ("chapel_gardens", "mckeldin_mall"),
     "chapel_gardens": ("morill_quad", "mckeldin_mall"),
     "mckeldin_mall": ("morill_quad", "chapel_gardens", "engineering_fields", "amphitheater"),
@@ -14,17 +15,26 @@ Map = {"morill_quad": ("chapel_gardens", "mckeldin_mall"),
 
 
 class Fox:
-    """This class stores information about the fox.
+    """This class stores information about the fox. Has three functions, spawn, and foxtrot.
+    
+    Attributes:
+        found (boolean): Default of False. Provides information about if the fox has been found.
+        location (string): Default of Beyond. Provides information about where the fox is.
     """
 
-    def __init__(self, found = False, location = "Beyond"):
+    def __init__(self, found = False, location = "beyond"):
+        """Initializes a Fox object.
+        
+        Args:
+            found (boolean): see class documentation
+            location (string): see class documentation
+        """
         self.found = found
         self.location = location
         
-    def return_str(self):
-        return str(self.location)
-        
     def spawn(self):
+        """Spawns a fox. Picks a random key in the global Map dictionary and sets the location of the fox to that string.
+        """
         
         startlist = list(Map.keys()) #grab the keys of the Map dict. and turn them into a list
         startlocation = random.choice(startlist) #grab a random location from the list
@@ -32,15 +42,24 @@ class Fox:
         
         
     def foxtrot(self):
+        """Moves the fox. In the global Map dictionary, this function will grab a random string in the list according to the key of the dictionary
+        where the fox is located. In other words, according to the key, it will grab a random string in the list that is the value
+        of that key.
+        """
         
         possibleloc = Map.get(self.location) #get a list of the nearest locations to the current locations from the map
         nextlocation = random.choice(possibleloc) #grab a random location from the list
         self.location = nextlocation #have the fox travel to that location
-        #print(self.location) #TESTING: print the fox location.
         
         
 class Location:
     """This class stores information about locations.
+    
+    Attributes:
+        present_prompt (string): This is a string that describes the location with the fox present.
+        absent_prompt (string): This is a string that describes the location without the fox present.
+        present (boolean): Default value of false. This is a boolean value that identifies if the fox is present or not, will assist in knowing 
+        which prompt to pull from. If true, pull from present_prompt. If false, pull from absent_prompt.
     """
     
     def __init__(self, present_prompt, absent_prompt, present = False):
@@ -49,26 +68,40 @@ class Location:
         self.present = present
         
 def Map_init():
-    """
-    This function initializes the map. It must be run before the game starts!
+    """This function creates the location objects. It must be run before the game starts!
     """
     
     morill_quad = Location("A photograph of a fox walking through a wooded area with low hanging trees and early 20th century brick university buildings.",
-                   "A photograph of a wooded area with low hanging trees and early 20th century brick university buildings.")
+                   "A photograph of a wooded area with low hanging trees and early 20th century brick university buildings.") #create morill quad location
     chapel_gardens = Location("A photograph of a fox sleeping in a garden with red and black-eyed susan flowers.",
-                      "A photograph of a wooded garden with an American chapel steeple rising from above the trees.")
+                      "A photograph of a wooded garden with an American chapel steeple rising from above the trees.") #create chapel gardens location
     mckeldin_mall = Location("A photograph of a fox walking across the University of Maryland's McKeldin Mall.", 
-                     "A photograph of the University of Maryland's McKeldin Mall.")
+                     "A photograph of the University of Maryland's McKeldin Mall.") #create mckeldin mall location
     ampitheater = Location("A photograph of a fox in a grassy amphitheater made of brick.",
-                   "A photograph of an amphitheater in front of a brick building.")
+                   "A photograph of an amphitheater in front of a brick building.") #create ampitheater location
     regents_drive_garage = Location("A photograph of a fox inside a parking garage that is full of cars.",
-                            "A photograph from inside a parking garage that is full of cars")
+                            "A photograph from inside a parking garage that is full of cars") #create regents drive garage location
     engineering_fields = Location("A photograph of a fox running across a freshly cut grass field with dirt mounds and construction equipment in the distance.",
-                          "A photograph a freshly cut grassy field with orange safety fence the backround.")
+                          "A photograph a freshly cut grassy field with orange safety fence the backround.") #create engineering fields location
     paint_branch_trail = Location("A photograph looking down a paved wooded trail with a fox running away.",
-                          "A photograph looking down a paved wooded trail.")
+                          "A photograph looking down a paved wooded trail.") #create paint branch trail location
     
 def main():
+    """The main function that contains the game. Will create the fox, create the locations print the dialogue, keep track of points, sent prompts 
+    to the API.
+    
+    As long as the fox's found value is False and the location is not beyond, a loop will run where the player goes to locations and
+    tries to take a picture.
+    As long as the player enters yes when they are prompted to take a picture the following logic will occur.
+        If the time it takes for the player to insert the location and if they want to take a picture is greater then 20 seconds, the fox will 
+        move before the player gets a chance to try and take a picture and 5 points will be subtracted.
+        If the fox is at the chosen location, the fox's found value will be sent to true, there will be a call to the api with the 
+        present_prompt and the game will end.
+        If the fox is not at the chosen location, there will be a call to the api with the absent_prompt, 1 point will be substracted
+        and the game will continue.
+    Regardless, the fox will move at every iteration of the while loop.
+    If the fox's location is set to beyond, the game will end with no points.
+    """
     
     Map_init() #create the locations
     
@@ -99,7 +132,7 @@ def main():
     print("Although you can't see the fox, it can see you! The longer you stay in a location the quicker the fox will run away!")
     print(" ")
     
-    points = 50
+    points = 50 #set a starting number of points
     
     Foxtudo = Fox() #create the fox
     Foxtudo.spawn() #spawn the fox on the map
@@ -107,11 +140,11 @@ def main():
     
     sleep(2)
     
-    while Foxtudo.found == False or Foxtudo.location != "Beyond":
+    while Foxtudo.found == False or Foxtudo.location != "beyond": #while the fox isn't found or beyond...
         
         sleep(1)
         
-        first_time = datetime.now()
+        first_time = datetime.now() #grab the time
         print(" ")
         location_input = input("Enter the location you want to visit: ") #have the user enter yes or no
         location_format = (sub(r'\s', '_', location_input)).lower() #replace the spaces with underscores and make it lowercase
@@ -131,7 +164,7 @@ def main():
         #needs to be either yes or no, case does not matter
         #case does not matter, because the line of code above will make it lower
         
-        second_time = datetime.now()
+        second_time = datetime.now() #grab the time
         
         if response == "yes":
             
@@ -143,16 +176,15 @@ def main():
                 points -= 5 #subtract 5 points
                 print("greater than 20 seconds") #for testing
         
-            if location_format == Foxtudo.return_str(): #if the fox is at the location...
+            if location_format == str(Foxtudo.location): #if the fox is at the location...
                 
-                Foxtudo = Fox(found = True) 
+                Foxtudo = Fox(found = True) #set the fox to found
                 
                 #INSERT CALL TO API HERE
                 
                 print("Hey! You found the fox! What a shot!")
-                print(f"Total Score: {points} points")
+                print(f"    Total Score: {points} points")
                 break
-                #return print(location.present_prompt)
 
             else:
                 
@@ -164,9 +196,10 @@ def main():
         
         Foxtudo.foxtrot() #move the fox regardless of the time
         
-    if Foxtudo.location == "Beyond!":
+    if Foxtudo.location == "beyond": #if the fox is at beyond...
         
         print("Hey, B! Just checked reddit and people are saying the fox is downtown. I think we missed it. :(")
+        print("     Total Score: 0 points")
         print("     G A M E  O V E R")
         
         
