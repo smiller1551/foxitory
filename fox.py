@@ -52,6 +52,8 @@ class Fox:
         self.location = nextlocation #have the fox travel to that location
         
         
+
+
 class Location:
     """This class stores information about locations.
     
@@ -67,24 +69,32 @@ class Location:
         self.absent_prompt = absent_prompt
         self.present = present
         
+
+
 def Map_init():
     """This function creates the location objects. It must be run before the game starts!
     """
-    
-    morill_quad = Location("A photograph of a fox walking through a wooded area with low hanging trees and early 20th century brick university buildings.",
-                   "A photograph of a wooded area with low hanging trees and early 20th century brick university buildings.") #create morill quad location
-    chapel_gardens = Location("A photograph of a fox sleeping in a garden with red and black-eyed susan flowers.",
-                      "A photograph of a wooded garden with an American chapel steeple rising from above the trees.") #create chapel gardens location
-    mckeldin_mall = Location("A photograph of a fox walking across the University of Maryland's McKeldin Mall.", 
-                     "A photograph of the University of Maryland's McKeldin Mall.") #create mckeldin mall location
-    ampitheater = Location("A photograph of a fox in a grassy amphitheater made of brick.",
-                   "A photograph of an amphitheater in front of a brick building.") #create ampitheater location
-    regents_drive_garage = Location("A photograph of a fox inside a parking garage that is full of cars.",
-                            "A photograph from inside a parking garage that is full of cars") #create regents drive garage location
-    engineering_fields = Location("A photograph of a fox running across a freshly cut grass field with dirt mounds and construction equipment in the distance.",
-                          "A photograph a freshly cut grassy field with orange safety fence the backround.") #create engineering fields location
-    paint_branch_trail = Location("A photograph looking down a paved wooded trail with a fox running away.",
-                          "A photograph looking down a paved wooded trail.") #create paint branch trail location
+
+    locations = {
+        'morill_quad': Location("A photograph of a fox walking through a wooded area with low hanging trees and early 20th century brick university buildings.",
+                   "A photograph of a wooded area with low hanging trees and early 20th century brick university buildings."),
+        'chapel_gardens': Location("A photograph of a fox sleeping in a garden with red and black-eyed susan flowers.",
+                      "A photograph of a wooded garden with an American chapel steeple rising from above the trees."),
+        'mckeldin_mall': Location("A photograph of a fox walking across the University of Maryland's McKeldin Mall.", 
+                     "A photograph of the University of Maryland's McKeldin Mall."),
+        'amphitheater': Location("A photograph of a fox in a grassy amphitheater made of brick.",
+                   "A photograph of an amphitheater in front of a brick building."),
+        'regents_drive_garage': Location("A photograph of a fox inside a parking garage that is full of cars.",
+                            "A photograph from inside a parking garage that is full of cars"),
+        'engineering_fields': Location("A photograph of a fox running across a freshly cut grass field with dirt mounds and construction equipment in the distance.",
+                          "A photograph a freshly cut grassy field with orange safety fence the backround."),
+        'paint_branch_trail': Location("A photograph looking down a paved wooded trail with a fox running away.",
+                          "A photograph looking down a paved wooded trail.")
+    }
+
+    return locations
+
+
     
 def main():
     """The main function that contains the game. Will create the fox, create the locations print the dialogue, keep track of points, sent prompts 
@@ -102,7 +112,11 @@ def main():
     Regardless, the fox will move at every iteration of the while loop.
     If the fox's location is set to beyond, the game will end with no points.
     """
-    
+
+    method = [method for method in dir(Fox) if method.startswith('__') is False] 
+    print(method)
+
+
     Map_init() #create the locations
     
     print("Hey, B! Welcome back to another great semester at the University of Maryland!")
