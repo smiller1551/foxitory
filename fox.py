@@ -94,7 +94,7 @@ def Map_init():
     }
 
     return locations
-def createImage(user_input):
+def createImage(user_input,key):
         """Create an image through DALL-E via user prompt.
 
             Args:
@@ -105,7 +105,7 @@ def createImage(user_input):
             n (int): amount of images desired
             size (str): size of image
         """
-    
+        openai.api_key = os.getenv(key)
         response = openai.Image.create(
         prompt= user_input,
         n=1,
@@ -201,7 +201,7 @@ def main():
         second_time = datetime.now() #grab the time
         
         if response == "yes":
-            
+            api_key = input("Enter the API key from openai: ")
             difference = second_time - first_time #find the difference between the first and second time.
     
             if difference > timedelta(seconds=20): #if the time is greater then 20 seconds...
@@ -214,7 +214,7 @@ def main():
                 
                 Foxtudo = Fox(found = True) #set the fox to found
                 
-                createImage(prompt[location_format][0])
+                createImage(Map[location_format][0],api_key)
                 
                 print("Hey! You found the fox! What a shot!")
                 print(f"    Total Score: {points} points")
@@ -222,7 +222,7 @@ def main():
 
             else:
                 
-                createImage(prompt[location_format][1])
+                createImage(Map[location_format][1],api_key)
                 
                 print("Wow! There's no fox in this picture. Better move on...")
                 points -= 1
