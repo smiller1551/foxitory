@@ -201,7 +201,7 @@ def main():
         second_time = datetime.now() #grab the time
         
         if response == "yes":
-            api_key = input("Enter the API key from openai: ")
+            api_key = input("Enter the API key from openai before playing : ")
             difference = second_time - first_time #find the difference between the first and second time.
     
             if difference > timedelta(seconds=20): #if the time is greater then 20 seconds...
