@@ -214,7 +214,7 @@ def main():
                 
                 Foxtudo = Fox(found = True) #set the fox to found
                 
-                createImage(location_format)
+                createImage(prompt[location_format][0])
                 
                 print("Hey! You found the fox! What a shot!")
                 print(f"    Total Score: {points} points")
@@ -222,7 +222,7 @@ def main():
 
             else:
                 
-                createImage(location_format)
+                createImage(prompt[location_format][1])
                 
                 print("Wow! There's no fox in this picture. Better move on...")
                 points -= 1
