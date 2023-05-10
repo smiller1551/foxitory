@@ -1,3 +1,4 @@
+import openai
 import random
 from time import sleep
 import multiprocessing as mp
@@ -5,13 +6,15 @@ from datetime import datetime, timedelta
 from re import sub
 
 #Map global variable, stores information about the map
-Map = {"morill_quad": ("chapel_gardens", "mckeldin_mall"),
+Map = {
+    "morill_quad": ("chapel_gardens", "mckeldin_mall"),
     "chapel_gardens": ("morill_quad", "mckeldin_mall"),
     "mckeldin_mall": ("morill_quad", "chapel_gardens", "engineering_fields", "amphitheater"),
     "amphitheater": ("regents_drive_garage", "mckeldin_mall"),
     "regents_drive_garage": ("amphitheater", "engineering_fields", "paint_branch_trail"),
     "engineering_fields": ("mckeldin_mall", "regents_drive_garage", "paint_branch_trail"),
-    "paint_branch_trail": ("regents_drive_garage", "engineering_fields", "beyond")}
+    "paint_branch_trail": ("regents_drive_garage", "engineering_fields", "beyond")
+    }
 
 
 class Fox:
@@ -51,40 +54,26 @@ class Fox:
         nextlocation = random.choice(possibleloc) #grab a random location from the list
         self.location = nextlocation #have the fox travel to that location
         
-        
-class Location:
-    """This class stores information about locations.
+def createImage(user_input):
+        """Create an image through DALL-E via user prompt.
+
+            Args:
+                user_input (str): phrase the user wants generated as an image
+                
+            response (Image): the AI generated image
+            prompt (str): required, description of desired image, <1000 characters
+            n (int): amount of images desired
+            size (str): size of image
+        """
     
-    Attributes:
-        present_prompt (string): This is a string that describes the location with the fox present.
-        absent_prompt (string): This is a string that describes the location without the fox present.
-        present (boolean): Default value of false. This is a boolean value that identifies if the fox is present or not, will assist in knowing 
-        which prompt to pull from. If true, pull from present_prompt. If false, pull from absent_prompt.
-    """
+        response = openai.Image.create(
+        prompt= user_input,
+        n=1,
+        size="512x512"
+        )
     
-    def __init__(self, present_prompt, absent_prompt, present = False):
-        self.present_prompt = present_prompt
-        self.absent_prompt = absent_prompt
-        self.present = present
-        
-def Map_init():
-    """This function creates the location objects. It must be run before the game starts!
-    """
-    
-    morill_quad = Location("A photograph of a fox walking through a wooded area with low hanging trees and early 20th century brick university buildings.",
-                   "A photograph of a wooded area with low hanging trees and early 20th century brick university buildings.") #create morill quad location
-    chapel_gardens = Location("A photograph of a fox sleeping in a garden with red and black-eyed susan flowers.",
-                      "A photograph of a wooded garden with an American chapel steeple rising from above the trees.") #create chapel gardens location
-    mckeldin_mall = Location("A photograph of a fox walking across the University of Maryland's McKeldin Mall.", 
-                     "A photograph of the University of Maryland's McKeldin Mall.") #create mckeldin mall location
-    ampitheater = Location("A photograph of a fox in a grassy amphitheater made of brick.",
-                   "A photograph of an amphitheater in front of a brick building.") #create ampitheater location
-    regents_drive_garage = Location("A photograph of a fox inside a parking garage that is full of cars.",
-                            "A photograph from inside a parking garage that is full of cars") #create regents drive garage location
-    engineering_fields = Location("A photograph of a fox running across a freshly cut grass field with dirt mounds and construction equipment in the distance.",
-                          "A photograph a freshly cut grassy field with orange safety fence the backround.") #create engineering fields location
-    paint_branch_trail = Location("A photograph looking down a paved wooded trail with a fox running away.",
-                          "A photograph looking down a paved wooded trail.") #create paint branch trail location
+        image_url = response['data'][0]['url']
+        print(image_url) #Displays the image linking URL to the user
     
 def main():
     """The main function that contains the game. Will create the fox, create the locations print the dialogue, keep track of points, sent prompts 
@@ -102,8 +91,23 @@ def main():
     Regardless, the fox will move at every iteration of the while loop.
     If the fox's location is set to beyond, the game will end with no points.
     """
+    Prompts = {
+    "morill_quad": ("A photograph of a fox walking through a wooded area with low hanging trees and early 20th century brick university buildings.",
+                   "A photograph of a wooded area with low hanging trees and early 20th century brick university buildings."),
+    "chapel_gardens": ("A photograph of a fox sleeping in a garden with red and black-eyed susan flowers.",
+                      "A photograph of a wooded garden with an American chapel steeple rising from above the trees."),
+    "mckeldin_mall": ("A photograph of a fox walking across the University of Maryland's McKeldin Mall.", 
+                     "A photograph of the University of Maryland's McKeldin Mall."),
+    "amphitheater": ("A photograph of a fox in a grassy amphitheater made of brick.",
+                   "A photograph of an amphitheater in front of a brick building."),
+    "regents_drive_garage": ("A photograph of a fox inside a parking garage that is full of cars.",
+                            "A photograph from inside a parking garage that is full of cars"),
+    "engineering_fields": ("A photograph of a fox running across a freshly cut grass field with dirt mounds and construction equipment in the distance.",
+                          "A photograph a freshly cut grassy field with orange safety fence the backround."),
+    "paint_branch_trail": ("A photograph looking down a paved wooded trail with a fox running away.",
+                          "A photograph looking down a paved wooded trail.")
+    }
     
-    Map_init() #create the locations
     
     print("Hey, B! Welcome back to another great semester at the University of Maryland!")
     #sleep(2)
@@ -180,15 +184,16 @@ def main():
                 
                 Foxtudo = Fox(found = True) #set the fox to found
                 
-                #INSERT CALL TO API HERE
+                createImage(location_format)
                 
                 print("Hey! You found the fox! What a shot!")
                 print(f"    Total Score: {points} points")
                 break
 
-            else:
+            else: #if the fox isn't at the location
                 
-                #INSERT CALL TO API HERE
+                
+                createImage(location_format)
                 
                 print("Wow! There's no fox in this picture. Better move on...")
                 points -= 1
