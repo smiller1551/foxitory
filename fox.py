@@ -3,6 +3,7 @@ from time import sleep
 import multiprocessing as mp
 from datetime import datetime, timedelta
 from re import sub
+import openai
 
 #Map global variable, stores information about the map
 Map = {"morill_quad": ("chapel_gardens", "mckeldin_mall"),
@@ -93,7 +94,26 @@ def Map_init():
     }
 
     return locations
+    def createImage(self, user_input):
+        """Create an image through DALL-E via user prompt.
 
+            Args:
+                user_input (str): phrase the user wants generated as an image
+                
+            response (Image): the AI generated image
+            prompt (str): required, description of desired image, <1000 characters
+            n (int): amount of images desired
+            size (str): size of image
+        """
+    
+        response = openai.Image.create(
+        prompt= user_input,
+        n=1,
+        size="512x512"
+        )
+    
+        image_url = response['data'][0]['url']
+        print(image_url) #Displays the image linking URL to the user
 
     
 def main():
