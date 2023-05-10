@@ -1,7 +1,4 @@
-import os
 import openai
-
-#"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"
 
 class Image:
 
@@ -14,6 +11,9 @@ class Image:
     def createImage(self, user_input):
         """Create an image through DALL-E via user prompt.
 
+            Args:
+                user_input (str): phrase the user wants generated as an image
+                
             response (Image): the AI generated image
             prompt (str): required, description of desired image, <1000 characters
             n (int): amount of images desired
@@ -27,10 +27,9 @@ class Image:
         )
     
         image_url = response['data'][0]['url']
-        print(image_url)
-        #pull image through GUI 
+        print(image_url) #Displays the image linking URL to the user
 
-fox_E = Image('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')
-img = fox_E.createImage("fox")
+fox_E = Image('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')
+img = fox_E.createImage("university of maryland campus with a fox")
 
-assert(fox_E.key == "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")
+#assert(fox_E.key == "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")
