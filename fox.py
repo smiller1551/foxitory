@@ -4,6 +4,7 @@ from time import sleep
 import multiprocessing as mp
 from datetime import datetime, timedelta
 from re import sub
+import openai
 
 #Map global variable, stores information about the map
 Map = {
