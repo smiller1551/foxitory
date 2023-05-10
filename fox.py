@@ -94,7 +94,7 @@ def Map_init():
     }
 
     return locations
-    def createImage(self, user_input):
+def createImage(user_input):
         """Create an image through DALL-E via user prompt.
 
             Args:
@@ -214,7 +214,7 @@ def main():
                 
                 Foxtudo = Fox(found = True) #set the fox to found
                 
-                #INSERT CALL TO API HERE
+                createImage(location_format)
                 
                 print("Hey! You found the fox! What a shot!")
                 print(f"    Total Score: {points} points")
@@ -222,7 +222,7 @@ def main():
 
             else:
                 
-                #INSERT CALL TO API HERE
+                createImage(location_format)
                 
                 print("Wow! There's no fox in this picture. Better move on...")
                 points -= 1
