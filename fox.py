@@ -55,7 +55,11 @@ class Fox:
         nextlocation = random.choice(possibleloc) #grab a random location from the list
         self.location = nextlocation #have the fox travel to that location
         
+<<<<<<< HEAD
 def createImage(user_input):
+=======
+def createImage(user_input,key):
+>>>>>>> bf87fee74426da1f5a846672490dc74449c15ccb
         """Create an image through DALL-E via user prompt.
 
             Args:
@@ -66,7 +70,11 @@ def createImage(user_input):
             n (int): amount of images desired
             size (str): size of image
         """
+<<<<<<< HEAD
     
+=======
+        openai.api_key = os.getenv(key)
+>>>>>>> bf87fee74426da1f5a846672490dc74449c15ccb
         response = openai.Image.create(
         prompt= user_input,
         n=1,
@@ -172,7 +180,7 @@ def main():
         second_time = datetime.now() #grab the time
         
         if response == "yes":
-            
+            api_key = input("Enter the API key from openai before playing : ")
             difference = second_time - first_time #find the difference between the first and second time.
     
             if difference > timedelta(seconds=20): #if the time is greater then 20 seconds...
@@ -185,7 +193,7 @@ def main():
                 
                 Foxtudo = Fox(found = True) #set the fox to found
                 
-                createImage(location_format)
+                createImage(prompt[location_format][0],api_key)
                 
                 print("Hey! You found the fox! What a shot!")
                 print(f"    Total Score: {points} points")
@@ -194,7 +202,11 @@ def main():
             else: #if the fox isn't at the location
                 
                 
+<<<<<<< HEAD
                 createImage(location_format)
+=======
+                createImage(prompt[location_format][1],api_key)
+>>>>>>> bf87fee74426da1f5a846672490dc74449c15ccb
                 
                 print("Wow! There's no fox in this picture. Better move on...")
                 points -= 1
