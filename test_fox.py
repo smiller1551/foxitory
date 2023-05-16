@@ -14,7 +14,10 @@ class TestMapDictionary(unittest.TestCase):
     def test_map_values_contain_valid_keys(self):
         for value in Map.values():
             for location in value:
-                self.assertIn(location, Map.keys())
+                if location == 'beyond': #fox got away
+                    continue
+                else:
+                    self.assertIn(location, Map.keys())
 
 class TestMapInit(unittest.TestCase):
 
