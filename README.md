@@ -8,5 +8,5 @@
 
 ## Dependencies
 
-### Open AI Package.
-Use pip install openai
+#### Open AI Package.
+#### Use pip install openai
